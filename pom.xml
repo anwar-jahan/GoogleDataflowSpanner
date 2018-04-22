@@ -424,24 +424,12 @@
 			<version>2.4.0</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-compress</artifactId>
-			<version>${apache.commons.compress.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-			<version>${apache.commons.lang.version}</version>
-		</dependency>
-
 		<!-- End Apache Bean -->
 
 		<dependency>
 			<groupId>io.grpc</groupId>
 			<artifactId>grpc-all</artifactId>
-			<version>${grpc.version}</version>
+			<version>1.2.0</version>
 			<exclusions>
 				<exclusion>
 					<groupId>com.google.protobuf</groupId>
@@ -453,31 +441,31 @@
 		<dependency>
 			<groupId>io.grpc</groupId>
 			<artifactId>grpc-auth</artifactId>
-			<version>${grpc.version}</version>
+			<version>1.2.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>io.grpc</groupId>
 			<artifactId>grpc-context</artifactId>
-			<version>${grpc.version}</version>
+			<version>1.2.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>io.grpc</groupId>
 			<artifactId>grpc-core</artifactId>
-			<version>${grpc.version}</version>
+			<version>1.2.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>io.grpc</groupId>
 			<artifactId>grpc-protobuf</artifactId>
-			<version>${grpc.version}</version>
+			<version>1.2.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>io.grpc</groupId>
 			<artifactId>grpc-protobuf-lite</artifactId>
-			<version>${grpc.version}</version>
+			<version>1.2.0</version>
 			<exclusions>
 				<exclusion>
 					<groupId>com.google.protobuf</groupId>
@@ -489,13 +477,13 @@
 		<dependency>
 			<groupId>io.grpc</groupId>
 			<artifactId>grpc-netty</artifactId>
-			<version>${grpc.version}</version>
+			<version>1.2.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>io.grpc</groupId>
 			<artifactId>grpc-stub</artifactId>
-			<version>${grpc.version}</version>
+			<version>1.2.0</version>
 		</dependency>
 
 		<dependency>

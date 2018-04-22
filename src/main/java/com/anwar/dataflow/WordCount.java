@@ -2,8 +2,6 @@ package com.anwar.dataflow;
 
 import java.sql.PreparedStatement;
 
-import org.apache.beam.runners.dataflow.DataflowRunner;
-import org.apache.beam.runners.dataflow.options.DataflowPipelineOptions;
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.io.TextIO;
 import org.apache.beam.sdk.io.jdbc.JdbcIO;
@@ -132,7 +130,7 @@ public class WordCount {
 		 * all the works of Shakespare
 		 */
 		@Description("Path of the file to read from")
-		@Default.String("gs://doorapi-200221/kinglear.txt")
+		@Default.String("gs://apache-beam-samples/shakespeare/kinglear.txt")
 		String getInputFile();
 
 		void setInputFile(String value);
@@ -144,7 +142,7 @@ public class WordCount {
 		void setJdbcDriver(String driver);
 
 		@Description("JDBC url to write the data to")
-		@Default.String("jdbc:cloudspanner://localhost;Project=doorapi-200221;Instance=test-instance;Database=test;PvtKeyPath=C://Users/Anwar/doorapi.json")
+		@Default.String("jdbc:cloudspanner://localhost;Project=numeric-wind-190510;Instance=test-instance;Database=test;PvtKeyPath=/home/loite/CloudSpannerKeys/cloudspanner-key.json")
 		String getURL();
 
 		void setURL(String url);
@@ -153,18 +151,13 @@ public class WordCount {
 	private static final String INSERT_OR_UPDATE_SQL = "INSERT INTO WordCount (word) VALUES (?) ON DUPLICATE KEY UPDATE";
 
 	public static void main(String[] args) {
-		//WordCountOptions options = PipelineOptionsFactory.fromArgs(args).withValidation().as(WordCountOptions.class);
-		PipelineOptions options = PipelineOptionsFactory.create();
-		DataflowPipelineOptions dataflowOptions = options.as(DataflowPipelineOptions.class);
-		dataflowOptions.setRunner(DataflowRunner.class);
-		dataflowOptions.setProject("doorapi-200221");
-		
+		WordCountOptions options = PipelineOptionsFactory.fromArgs(args).withValidation().as(WordCountOptions.class);
 		Pipeline p = Pipeline.create(options);
 
 		// Concepts #2 and #3: Our pipeline applies the composite CountWords
 		// transform, and passes the
 		// static FormatAsTextFn() to the ParDo transform.
-		p.apply("ReadLines", TextIO.read().from("gs://doorapi-200221/kinglear.txt"))   //options.getInputFile()
+		p.apply("ReadLines", TextIO.read().from(options.getInputFile()))
 				// Count words in input file(s)
 				.apply(new CountWords())
 				// Format as text
@@ -172,7 +165,7 @@ public class WordCount {
 				// Write the words to the database
 				.apply(JdbcIO.<String> write()
 						.withDataSourceConfiguration(
-								JdbcIO.DataSourceConfiguration.create("nl.topicus.jdbc.CloudSpannerDriver", "jdbc:cloudspanner://localhost;Project=doorapi-200221;Instance=test-instance;Database=test;PvtKeyPath=C://Users/Anwar/doorapi.json"))   //options.getJdbcDriver(), options.getURL()
+								JdbcIO.DataSourceConfiguration.create(options.getJdbcDriver(), options.getURL()))
 						.withStatement(INSERT_OR_UPDATE_SQL)
 						.withPreparedStatementSetter(new WordCountPreparedStatementSetter()));
 
